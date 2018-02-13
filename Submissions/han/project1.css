@@ -16,7 +16,7 @@ body {
 }
 
 .label {
-    text-anchor: middle;
+    text-anchor: start;
     font-size: 12px;
     font-weight: bold;
     cursor: pointer;

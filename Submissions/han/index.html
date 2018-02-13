@@ -5,7 +5,7 @@
     <style type="text/css" href="project1.css"></style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!--Put your D3 import statement between these two lines-->
-        <script src="https://d3js.org/d3.v3.min.js"></script>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
     <!--Put your D3 import statement between these two lines-->
 </head>
 
@@ -16,7 +16,7 @@
     
     <div id="partTwo">
         <h1>Part Two: </h1>
-        <div id="barchart">
+        <div id="scatterplotpart1">
         </div>
     </div>
     
@@ -37,19 +37,19 @@
         // Put your part one code here ***********************
         //reads in data and uses the checkDataset function to determine if the data
         //read in properly
-        d3.csv("data/anscombe_I.csv", function(data){
+        d3.csv("data/anscombe_I.csv", function(error,data){ //read in data
             var ans1 = data;
-            checkDataset(ans1);
+            checkDataset(ans1); //call the function to check read in process
         });
-        d3.csv("data/anscombe_II.csv", function(data){
+        d3.csv("data/anscombe_II.csv", function(error,data){
             var ans2 = data;
             checkDataset(ans2);
         });
-        d3.csv("data/anscombe_III.csv", function(data){
+        d3.csv("data/anscombe_III.csv", function(error,data){
             var ans3 = data;
             checkDataset(ans3);
         });
-        d3.csv("data/anscombe_IV.csv", function(data){
+        d3.csv("data/anscombe_IV.csv", function(error,data){
             var ans4 = data;
             checkDataset(ans4);
         });
@@ -64,7 +64,62 @@
         }
         
         // Put your part two code here ***********************
-        
+
+        d3.csv("data/anscombe_I.csv", function(error, data) { //read in data
+        if(error) throw error;
+        //Format the data
+        data.forEach(function(d){
+          d.x = parseFloat(d.x);
+          d.y = parseFloat(d.y);
+        });
+        // Set dimensions and margins of the graph
+        var margin = {top: 20, right: 20, bottom:30, left: 50},
+            width = 600 - margin.left - margin.right,
+            height = 400 - margin.top - margin.bottom;
+        // Set the ranges
+        var xVal = d3.scaleLinear().range([0, width]);
+            yVal = d3.scaleLinear().range([height, 0]);
+       // Append the svg object to partTwo div
+       var svg = d3.select("#scatterplotpart1")
+                   .append("svg")
+                   .attr("width", width + margin.left + margin.right)
+                   .attr("height", height + margin.top + margin.bottom)
+                   .append("g")
+                   .attr("transform", "translate(" + margin.left + "," + margin.top + ")" );
+        //Scale the range of the dataset
+        xVal.domain([d3.min(data, function(d) { return d.x; })-1, d3.max(data, function(d) { return d.x; })+1]);
+        yVal.domain([d3.min(data, function(d) { return d.y; })-1, d3.max(data, function(d) { return d.y; })+1]);
+        //Add scatterplot
+        svg.selectAll("circle")
+           .data(data)
+           .enter()
+           .append("circle")
+           .attr("r", 8)
+           .attr("fill", "blue")
+           .attr("cx", function(d){return xVal(d.x);})
+           .attr("cy", function(d){return yVal(d.y);});
+
+        //Add the X axis 
+        svg.append("g")
+           .attr("transform", "translate(0," + height + ")")
+           .call(d3.axisBottom(xVal));
+        //Add the Y aixs
+        svg.append("g")
+           .call(d3.axisLeft(yVal));
+        //Add text labels
+        var xLabel = svg.append("text")
+                   .attr("class", "label")
+                   .text("x")
+                   .attr("x", width - 20)
+                   .attr("y", height -10);
+
+        var yLabel = svg.append("text")
+                  .attr("class", "label")
+                  .text("y")
+                  .attr("y", -10)
+                  .style("text-anchor", "start");
+      });
+
         // Put your part three & four code here ***********************
         
         // Put your part five code here ***********************
