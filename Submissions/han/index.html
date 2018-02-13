@@ -6,6 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!--Put your D3 import statement between these two lines-->
         <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="https://d3js.org/d3-selection-multi.v0.4.min.js"></script>
     <!--Put your D3 import statement between these two lines-->
 </head>
 
@@ -103,11 +104,21 @@
             .on("mouseout", mouseOutPoint)     //when mouse off the point, return to blue
             .on("click", mouseClick);  //when click, show label
 
-            function mouseOverPoint(){
-                d3.select(this).attr("r",15).style('fill', 'yellow')
+            function mouseOverPoint(d, i){
+                d3.select(this).attr("r",15).style('fill', 'yellow');
+            //Bell Tooltips:
+               svg.append("text").attrs({
+               id: "t",  // Create an id for text so we can select it later for removing on mouseout
+                x: function() { return xVal(d.x); },
+                y: function() { return yVal(d.y); }
+            })
+            .text("X: "+d.x+"  "+"Y: "+d.y);
             };
-            function mouseOutPoint(){
-                d3.select(this).attr("r",8).style('fill', 'blue')
+            function mouseOutPoint(d,i){
+                d3.select(this).attr("r",8).style('fill', 'blue');
+                //Bell: Tooltips
+                // Select text by id and then remove
+            d3.select("#t").remove();  // Remove text location
             };
             function mouseClick(d){
                 d3.select("#scatterLabel")
