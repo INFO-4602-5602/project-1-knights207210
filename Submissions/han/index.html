@@ -16,14 +16,14 @@
     
     <div id="partTwo">
         <h1>Part Two: </h1>
-        <div id="scatterplotpart1">
+        <div id="scatterplot">
+            <p id="scatterLabel"></p>
         </div>
     </div>
     
     <div id="partThree">
         <h1>Part Three &amp; Four: </h1>
-        <div id="scatterplot">
-            <p id="scatterLabel"></p>
+        <div id="linegraph">
         </div>
     </div>
     
@@ -65,9 +65,9 @@
         
         // Put your part two code here ***********************
 
-        d3.csv("data/anscombe_I.csv", function(error, data) { //read in data
+        d3.csv("data/anscombe_II.csv", function(error, data) { //read in data
         if(error) throw error;
-        //Format the data
+        //transformation from string to float
         data.forEach(function(d){
           d.x = parseFloat(d.x);
           d.y = parseFloat(d.y);
@@ -79,8 +79,8 @@
         // Set the ranges
         var xVal = d3.scaleLinear().range([0, width]);
             yVal = d3.scaleLinear().range([height, 0]);
-       // Append the svg object to partTwo div
-       var svg = d3.select("#scatterplotpart1")
+       // define svg object
+       var svg = d3.select("#scatterplot")
                    .append("svg")
                    .attr("width", width + margin.left + margin.right)
                    .attr("height", height + margin.top + margin.bottom)
@@ -121,7 +121,79 @@
       });
 
         // Put your part three & four code here ***********************
-        
+        d3.csv("data/anscombe_II.csv", function(error, data) { //read in data
+        if(error) throw error;
+        //transformation from string to float
+        data.forEach(function(d){
+          d.x = parseFloat(d.x);
+          d.y = parseFloat(d.y);
+        });
+        // Set dimensions and margins of the graph
+        var margin = {top: 20, right: 20, bottom:30, left: 50},
+            width = 600 - margin.left - margin.right,
+            height = 400 - margin.top - margin.bottom;
+        // Set the ranges
+        var xVal = d3.scaleLinear().range([0, width]);
+            yVal = d3.scaleLinear().range([height, 0]);
+       // define svg object
+       var svg = d3.select("#linegraph")
+                   .append("svg")
+                   .attr("width", width + margin.left + margin.right)
+                   .attr("height", height + margin.top + margin.bottom)
+                   .append("g")
+                   .attr("transform", "translate(" + margin.left + "," + margin.top + ")" );
+        //Scale the range of the dataset
+        xVal.domain([d3.min(data, function(d) { return d.x; })-1, d3.max(data, function(d) { return d.x; })+1]);
+        yVal.domain([d3.min(data, function(d) { return d.y; })-1, d3.max(data, function(d) { return d.y; })+1]);
+        //Add scatterplot
+        svg.selectAll("circle")
+           .data(data)
+           .enter()
+           .append("circle")
+           .attr("r", 8)
+           .attr("fill", "blue")
+           .attr("cx", function(d){return xVal(d.x);})
+           .attr("cy", function(d){return yVal(d.y);});
+
+        //Sort dataset first so that d3.line.curve will work
+          data.sort(function(a,b){
+            return d3.ascending(a.x, b.x);
+          });
+        //Add linegraph
+
+        svg.append("g")
+            .append("path")
+            .data([data])
+            .attr("class", "line")
+            .attr("d", d3.line()
+                         .x(function(d){ return xVal(d.x); })
+                         .y(function(d){ return yVal(d.y); })
+                         .curve(d3.curveLinear))
+            .attr("fill", "none")
+            .attr("stroke-width",3)
+            .attr("stroke", "green");    
+
+        //Add the X axis 
+        svg.append("g")
+           .attr("transform", "translate(0," + height + ")")
+           .call(d3.axisBottom(xVal));
+        //Add the Y aixs
+        svg.append("g")
+           .call(d3.axisLeft(yVal));
+        //Add text labels
+        var xLabel = svg.append("text")
+                   .attr("class", "label")
+                   .text("x")
+                   .attr("x", width - 20)
+                   .attr("y", height -10);
+
+        var yLabel = svg.append("text")
+                  .attr("class", "label")
+                  .text("y")
+                  .attr("y", -10)
+                  .style("text-anchor", "start");
+      });
+
         // Put your part five code here ***********************
         
     </script>
