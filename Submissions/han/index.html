@@ -97,7 +97,22 @@
            .attr("r", 8)
            .attr("fill", "blue")
            .attr("cx", function(d){return xVal(d.x);})
-           .attr("cy", function(d){return yVal(d.y);});
+           .attr("cy", function(d){return yVal(d.y);})
+            //part four code          
+           .on("mouseover", mouseOverPoint)   // when mouse over the point, change to yellow
+            .on("mouseout", mouseOutPoint)     //when mouse off the point, return to blue
+            .on("click", mouseClick);  //when click, show label
+
+            function mouseOverPoint(){
+                d3.select(this).attr("r",15).style('fill', 'yellow')
+            };
+            function mouseOutPoint(){
+                d3.select(this).attr("r",8).style('fill', 'blue')
+            };
+            function mouseClick(d){
+                d3.select("#scatterLabel")
+                  .text("X: "+d.x+"  "+"Y: "+d.y);
+            };
 
         //Add the X axis 
         svg.append("g")
@@ -117,7 +132,10 @@
                   .attr("class", "label")
                   .text("y")
                   .attr("y", -10)
-                  .style("text-anchor", "start");
+                  .style("text-anchor", "start")
+
+     
+            
       });
 
         // Put your part three & four code here ***********************
@@ -159,9 +177,9 @@
           data.sort(function(a,b){
             return d3.ascending(a.x, b.x);
           });
-        //Add linegraph
 
-        svg.append("g")
+        //Add linegraph
+         svg.append("g")
             .append("path")
             .data([data])
             .attr("class", "line")
