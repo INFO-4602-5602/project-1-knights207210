@@ -82,7 +82,7 @@
         // Set dimensions and margins of the graph
         var margin = {top: 20, right: 20, bottom:30, left: 50},
             width = 600 - margin.left - margin.right,
-            height = 400 - margin.top - margin.bottom;
+            height = 600 - margin.top - margin.bottom;
         // Set the ranges
         var xVal = d3.scaleLinear().range([0, width]);
             yVal = d3.scaleLinear().range([height, 0]);
@@ -118,7 +118,8 @@
                 x: function() { return xVal(d.x); },
                 y: function() { return yVal(d.y); }
             })
-            .text("X: "+d.x+"  "+"Y: "+d.y);
+            .text("X: "+d.x+"  "+"Y: "+d.y)
+            .attr("transform", "translate(0," + -220 + ")");
             };
             function mouseOutPoint(d,i){
                 d3.select(this).attr("r",8).style('fill', 'blue');
@@ -234,6 +235,8 @@
         //anscombe_I graph
         d3.csv("data/anscombe_I.csv", function(error, data) { //read in data
         if(error) throw error;
+        ans=data
+        bestFit=lineofBestFit(ans);  //find out best fit line's k and b
         //transformation from string to float
         data.forEach(function(d){
           d.x = parseFloat(d.x);
@@ -257,6 +260,28 @@
         //Scale the range of the dataset
         xVal.domain([d3.min(data, function(d) { return d.x; })-1, d3.max(data, function(d) { return d.x; })+1]);
         yVal.domain([d3.min(data, function(d) { return d.y; })-1, d3.max(data, function(d) { return d.y; })+1]);
+
+        //Add best fit line
+
+        xMin=0
+        xMax=d3.max(ans,function(d,i){
+            return parseFloat(d.x);
+        });
+        //calculate two points on the best fit line
+        var x1=xMin;
+        var x2=xMax;
+        var y1=x1*bestFit[0]+bestFit[1];  // y = k*x +b 
+        var y2=x2*bestFit[0]+bestFit[1];
+
+        svg.append("line")
+        .attr("x1",xVal(x1))     //use two points to draw the line
+        .attr("x2",xVal(x2))
+        .attr("y1",yVal(y1))
+        .attr("y2",yVal(y2))
+        .attr("stroke","grey")
+        .attr("stroke-width",2)
+        .style("stroke-dasharray",("10,3"));
+        
         //Add scatterplot
         svg.selectAll("circle")
            .data(data)
@@ -315,6 +340,8 @@
       //anscombe_II graph
         d3.csv("data/anscombe_II.csv", function(error, data) { //read in data
         if(error) throw error;
+        ans=data
+        bestFit=lineofBestFit(ans);  
         //transformation from string to float
         data.forEach(function(d){
           d.x = parseFloat(d.x);
@@ -338,6 +365,27 @@
         //Scale the range of the dataset
         xVal.domain([d3.min(data, function(d) { return d.x; })-1, d3.max(data, function(d) { return d.x; })+1]);
         yVal.domain([d3.min(data, function(d) { return d.y; })-1, d3.max(data, function(d) { return d.y; })+1]);
+
+        //Add best fit line
+
+        xMin=0
+        xMax=d3.max(ans,function(d,i){
+            return parseFloat(d.x);
+        });
+        var x1=xMin;
+        var x2=xMax;
+        var y1=x1*bestFit[0]+bestFit[1];
+        var y2=x2*bestFit[0]+bestFit[1];
+
+        svg.append("line")
+        .attr("x1",xVal(x1))
+        .attr("x2",xVal(x2))
+        .attr("y1",yVal(y1))
+        .attr("y2",yVal(y2))
+        .attr("stroke","grey")
+        .attr("stroke-width",2)
+        .style("stroke-dasharray",("10,3"));
+
         //Add scatterplot
         svg.selectAll("circle")
            .data(data)
@@ -396,6 +444,8 @@
         //anscombe_III graph
         d3.csv("data/anscombe_III.csv", function(error, data) { //read in data
         if(error) throw error;
+        ans=data
+        bestFit=lineofBestFit(ans);
         //transformation from string to float
         data.forEach(function(d){
           d.x = parseFloat(d.x);
@@ -419,6 +469,27 @@
         //Scale the range of the dataset
         xVal.domain([d3.min(data, function(d) { return d.x; })-1, d3.max(data, function(d) { return d.x; })+1]);
         yVal.domain([d3.min(data, function(d) { return d.y; })-1, d3.max(data, function(d) { return d.y; })+1]);
+
+        //Add best fit line
+
+        xMin=0
+        xMax=d3.max(ans,function(d,i){
+            return parseFloat(d.x);
+        });
+        var x1=xMin;
+        var x2=xMax;
+        var y1=x1*bestFit[0]+bestFit[1];
+        var y2=x2*bestFit[0]+bestFit[1];
+
+        svg.append("line")
+        .attr("x1",xVal(x1))
+        .attr("x2",xVal(x2))
+        .attr("y1",yVal(y1))
+        .attr("y2",yVal(y2))
+        .attr("stroke","grey")
+        .attr("stroke-width",2)
+        .style("stroke-dasharray",("10,3"));
+
         //Add scatterplot
         svg.selectAll("circle")
            .data(data)
@@ -477,6 +548,8 @@
               //anscombe_IV graph
         d3.csv("data/anscombe_IV.csv", function(error, data) { //read in data
         if(error) throw error;
+        ans=data
+        bestFit=lineofBestFit(ans);
         //transformation from string to float
         data.forEach(function(d){
           d.x = parseFloat(d.x);
@@ -500,6 +573,27 @@
         //Scale the range of the dataset
         xVal.domain([d3.min(data, function(d) { return d.x; })-1, d3.max(data, function(d) { return d.x; })+1]);
         yVal.domain([d3.min(data, function(d) { return d.y; })-1, d3.max(data, function(d) { return d.y; })+1]);
+
+        //Add best fit line
+
+        xMin=0
+        xMax=d3.max(ans,function(d,i){
+            return parseFloat(d.x);
+        });
+        var x1=xMin;
+        var x2=xMax;
+        var y1=x1*bestFit[0]+bestFit[1];
+        var y2=x2*bestFit[0]+bestFit[1];
+
+        svg.append("line")
+        .attr("x1",xVal(x1))
+        .attr("x2",xVal(x2))
+        .attr("y1",yVal(y1))
+        .attr("y2",yVal(y2))
+        .attr("stroke","grey")
+        .attr("stroke-width",2)
+        .style("stroke-dasharray",("10,3"));
+
         //Add scatterplot
         svg.selectAll("circle")
            .data(data)
@@ -573,7 +667,7 @@
             yVal = d3.scaleLinear().range([height, 0]);
             xorVal = d3.scaleLinear().range([0, width]);  //ordinal represents the order of the data 
        // define svg object
-       var svg = d3.select("#barChart")
+       var svg_bar = d3.select("#barChart")
                    .append("svg")
                    .attr("width", (width + margin.left + margin.right))
                    .attr("height", (height + margin.top + margin.bottom))
@@ -585,7 +679,7 @@
         yVal.domain([d3.min(data, function(d) { return d.x; })-1, d3.max(data, function(d) { return d.x; })+1]);
         xorVal.domain([1,12]);
         //Add scatterplot
-        svg.selectAll("rect")
+        svg_bar.selectAll("rect")
            .data(data)
            .enter()
            .append("rect")
@@ -594,17 +688,29 @@
            .attr("width", 10)//width of the rectangles
            .attr("height", function(d) { return xVal(d.x);})
            //height of the rectangles is x value
-           .style('fill', 'blue');//color of the rectangle
+           .style('fill', 'blue')//color of the rectangle
+            //whistle 3 code          
+           .on("mouseover", mouseOverBar)   // when mouse over the point, change to yellow
+           .on("mouseout", mouseOutBar);     //when mouse off the point, return to blue
+
+            function mouseOverBar(d, i){
+                d3.select(this).attr("width",15).style('fill', 'yellow');
+                d3.select("#r").attr("width",15).style('fill', 'yellow');  //select label from graph encoding y
+            };
+            function mouseOutBar(d,i){
+                d3.select(this).attr("width",10).style('fill', 'blue');
+                d3.select("#r").attr("width",10).style('fill', 'blue');
+            };
 
         //Add the X axis 
-        svg.append("g")
+        svg_bar.append("g")
            .attr("transform", "translate(0," + height + ")")
            .call(d3.axisBottom(xorVal));
         //Add the Y aixs
-        svg.append("g")
+        svg_bar.append("g")
            .call(d3.axisLeft(yVal));
         //Add text labels
-        var xLabel = svg.append("text")
+        var xLabel = svg_bar.append("text")
                    .attr("class", "label")
                    .text("Ordinal")
                    .attr("x", width - 20)
@@ -612,13 +718,13 @@
                    .style("text-anchor", "middle");
 
 
-        var yLabel = svg.append("text")
+        var yLabel = svg_bar.append("text")
                   .attr("class", "label")
                   .text("x value")
                   //.attr("y", -10)
                   .style("text-anchor", "start");
 
-        var title =  svg.append("text")
+        var title =  svg_bar.append("text")
                   .attr("text-anchor", "middle")
                   .attr("transform", "translate(" + margin.left + "," + margin.top + ")" )
                   .text("Anscombe I - X");
@@ -659,12 +765,18 @@
            .data(data)
            .enter()
            .append("rect")
+           .attrs({
+               id: "r",
+               x: function(d) { return xVal(d.x); },
+               y: function(d) { return yVal(d.y); },
+            })
            .attr("x", function(d){ return xorVal(d.x-3);})//ordinal
            .attr("y", function(d) { return (yVal(d.y)); })//y axis represents x value
            .attr("width", 10)//width of the rectangles
            .attr("height", function(d) { return (height-yVal(d.y));})
            //height of the rectangles is x value
            .style('fill', 'blue');//color of the rectangle
+
 
         //Add the X axis 
         svg.append("g")
@@ -693,6 +805,28 @@
                   .attr("transform", "translate(" + margin.left + "," + margin.top + ")" )
                   .text("Anscombe I - Y");
       });
+
+
+      //best fit function
+      function lineofBestFit(data){
+        //calculate the best fit line based on mean
+        var xmean = d3.mean(data,function(d){ return d['x'];});
+        var ymean = d3.mean(data,function(d){ return (d['y']);});
+        var top = d3.sum(data,function(d){
+                return ((d['x'])-xmean)*((d['y'])-ymean);
+            });
+        var bottom = d3.sum(data,function(d){
+                return ((d['x'])-xmean)*((d['x'])-xmean);
+            });
+
+       //find slope of line of best fit
+        var k = top/bottom; 
+
+       //find y-intercept
+        var b = ymean - k*xmean;
+        return [k,b];            
+}
+
     </script>
 </body>
 
