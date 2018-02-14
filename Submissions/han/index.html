@@ -33,6 +33,12 @@
         <div id="scatterplotSet">
         </div>
     </div>
+
+    <div id="barChart">
+        <h1>bar chart: </h1>
+        <div id="barchart">
+        </div>
+    </div>
     
     <script type="text/javascript">
         // Put your part one code here ***********************
@@ -548,6 +554,72 @@
                   .text("Anscombe IV");
       });
         
+      //Bar chart code here
+       d3.csv("data/anscombe_I.csv", function(error, data) { //read in data
+        if(error) throw error;
+        //transformation from string to float
+        data.forEach(function(d){
+          d.x = parseFloat(d.x);
+          d.y = parseFloat(d.y);
+        });
+         var xordinal = [1,2,3,4,5,6,7,8,9,10,11];
+        // Set dimensions and margins of the graph
+        var margin = {top: 20, right: 20, bottom:30, left: 50},
+            width = 800 - margin.left - margin.right,
+            height = 800 - margin.top - margin.bottom;
+        // Set the ranges
+        var xVal = d3.scaleLinear().range([0, width]);
+            yVal = d3.scaleLinear().range([height, 0]);
+            xorVal = d3.scaleLinear().range([0, width]);  //ordinal represents the order of the data 
+       // define svg object
+       var svg = d3.select("#barChart")
+                   .append("svg")
+                   .attr("width", (width + margin.left + margin.right))
+                   .attr("height", (height + margin.top + margin.bottom))
+                   .append("g")
+                   .attr("transform", "translate(" + margin.left + "," + margin.top + ")" )
+       
+        //Scale the range of the dataset
+        xVal.domain([d3.min(data, function(d) { return d.x; })-1, d3.max(data, function(d) { return d.x; })+1]);
+        yVal.domain([d3.min(data, function(d) { return d.x; })-1, d3.max(data, function(d) { return d.x; })+1]);
+        xorVal.domain([1,12]);
+        //Add scatterplot
+        svg.selectAll("rect")
+           .data(data)
+           .enter()
+           .append("rect")
+           .attr("x", function(d){ return xorVal(d.x-3);})//ordinal
+           .attr("y", function(d) { return (height-xVal(d.x)); })//y axis represents x value
+           .attr("width", 10)//width of the rectangles
+           .attr("height", function(d) { return xVal(d.x);})
+           //height of the rectangles is x value
+           .style('fill', 'blue');//color of the rectangle
+
+        //Add the X axis 
+        svg.append("g")
+           .attr("transform", "translate(0," + height + ")")
+           .call(d3.axisBottom(xorVal));
+        //Add the Y aixs
+        svg.append("g")
+           .call(d3.axisLeft(yVal));
+        //Add text labels
+        var xLabel = svg.append("text")
+                   .attr("class", "label")
+                   .text("Ordinal")
+                   .attr("x", width - 20)
+                   .attr("y", height -10);
+
+        var yLabel = svg.append("text")
+                  .attr("class", "label")
+                  .text("x value")
+                  //.attr("y", -10)
+                  .style("text-anchor", "start");
+
+        var title =  svg.append("text")
+                  .attr("text-anchor", "middle")
+                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")" )
+                  .text("Anscombe I - X");
+      });
     </script>
 </body>
 
