@@ -669,7 +669,7 @@
       //Bar chart encoding x value
        d3.csv("data/anscombe_I.csv", function(error, data) { //read in data
         if(error) throw error;
-        //transformation from string to float
+        //transformation from stringto float
         data.forEach(function(d){
           d.x = parseFloat(d.x);
           d.y = parseFloat(d.y);
@@ -849,6 +849,8 @@
         var b = ymean - k*xmean;
         return [k,b];            
 }
+
+
 
     </script>
 </body>

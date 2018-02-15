@@ -7,7 +7,7 @@ body {
 }
 
 
-
+/*axis style*/
 .axis path{
     stroke: blue;
 }
@@ -20,16 +20,15 @@ body {
     stroke: blue;
 }
 
+/*point style*/
 .point {
     fill: #f00; 
     stroke: blue;
 }
 
+/*label style*/
 .label {
     text-anchor: start;
-    /*font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;*/
     stroke: red;
 }
 
