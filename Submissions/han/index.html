@@ -771,11 +771,11 @@
 
             function mouseOverBar(d, i){
                 d3.select(this).attr("width",15).style('fill', 'yellow');
-                d3.select("#r").attr("width",15).style('fill', 'yellow');  //select label from graph encoding y
+                d3.select("#id-"+i).attr("width",15).style('fill', 'yellow');  //select label from graph encoding y
             };
             function mouseOutBar(d,i){
                 d3.select(this).attr("width",10).style('fill', 'blue');
-                d3.select("#r").attr("width",10).style('fill', 'blue');
+                d3.select("#id-"+i).attr("width",10).style('fill', 'blue');
             };
 
         //Add the X axis 
@@ -845,7 +845,7 @@
            .enter()
            .append("rect")
            .attrs({
-               id: "r",
+               id: function(d, i) { return "id-" + i; },
                x: function(d) { return xVal(d.x); },
                y: function(d) { return yVal(d.y); },
             })
