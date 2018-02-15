@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8">
     <title>Xu Han's project 1</title>
-    <style type="text/css" href="project1.css"></style>
+    <link rel="stylesheet" type="text/css" href="project1.css"></link>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!--Put your D3 import statement between these two lines-->
         <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -119,6 +119,7 @@
                 y: function() { return yVal(d.y); }
             })
             .text("X: "+d.x+"  "+"Y: "+d.y)
+            .attr("class", "label")
             .attr("transform", "translate(0," + -220 + ")");
             };
             function mouseOutPoint(d,i){
@@ -134,10 +135,12 @@
 
         //Add the X axis 
         svg.append("g")
+           .attr("class", "axis")
            .attr("transform", "translate(0," + height + ")")
            .call(d3.axisBottom(xVal));
         //Add the Y aixs
         svg.append("g")
+           .attr("class", "axis")
            .call(d3.axisLeft(yVal));
         //Add text labels
         var xLabel = svg.append("text")
@@ -212,9 +215,11 @@
         //Add the X axis 
         svg.append("g")
            .attr("transform", "translate(0," + height + ")")
+           .attr("class", "axis")
            .call(d3.axisBottom(xVal));
         //Add the Y aixs
         svg.append("g")
+           .attr("class", "axis")
            .call(d3.axisLeft(yVal));
         //Add text labels
         var xLabel = svg.append("text")
@@ -313,9 +318,11 @@
         //Add the X axis 
         svg.append("g")
            .attr("transform", "translate(0," + height + ")")
+           .attr("class", "axis")
            .call(d3.axisBottom(xVal));
         //Add the Y aixs
         svg.append("g")
+        .attr("class", "axis")
            .call(d3.axisLeft(yVal));
         //Add text labels
         var xLabel = svg.append("text")
@@ -333,6 +340,7 @@
         var title =  svg.append("text")
                   .attr("text-anchor", "middle")
                   .attr("transform", "translate(" + margin.left + "," + margin.top + ")" )
+                  .attr("class", "label")
                   .text("Anscombe I");
       });
 
@@ -417,9 +425,11 @@
         //Add the X axis 
         svg.append("g")
            .attr("transform", "translate(0," + height + ")")
+           .attr("class", "axis")
            .call(d3.axisBottom(xVal));
         //Add the Y aixs
         svg.append("g")
+           .attr("class", "axis")
            .call(d3.axisLeft(yVal));
         //Add text labels
         var xLabel = svg.append("text")
@@ -437,6 +447,7 @@
         var title =  svg.append("text")
                   .attr("text-anchor", "middle")
                   .attr("transform", "translate(" + margin.left + "," + margin.top + ")" )
+                  .attr("class", "label")
                   .text("Anscombe II");
       });
 
@@ -521,9 +532,11 @@
         //Add the X axis 
         svg.append("g")
            .attr("transform", "translate(0," + height + ")")
+           .attr("class", "axis")
            .call(d3.axisBottom(xVal));
         //Add the Y aixs
         svg.append("g")
+           .attr("class", "axis")
            .call(d3.axisLeft(yVal));
         //Add text labels
         var xLabel = svg.append("text")
@@ -541,6 +554,7 @@
         var title =  svg.append("text")
                   .attr("text-anchor", "middle")
                   .attr("transform", "translate(" + margin.left + "," + margin.top + ")" )
+                  .attr("class", "label")
                   .text("Anscombe III");
       });
 
@@ -625,9 +639,11 @@
         //Add the X axis 
         svg.append("g")
            .attr("transform", "translate(0," + height + ")")
+           .attr("class", "axis")
            .call(d3.axisBottom(xVal));
         //Add the Y aixs
         svg.append("g")
+           .attr("class", "axis")
            .call(d3.axisLeft(yVal));
         //Add text labels
         var xLabel = svg.append("text")
@@ -645,6 +661,7 @@
         var title =  svg.append("text")
                   .attr("text-anchor", "middle")
                   .attr("transform", "translate(" + margin.left + "," + margin.top + ")" )
+                  .attr("class", "label")
                   .text("Anscombe IV");
       });
         
@@ -705,9 +722,11 @@
         //Add the X axis 
         svg_bar.append("g")
            .attr("transform", "translate(0," + height + ")")
+           .attr("class", "axis")
            .call(d3.axisBottom(xorVal));
         //Add the Y aixs
         svg_bar.append("g")
+        .attr("class", "axis")
            .call(d3.axisLeft(yVal));
         //Add text labels
         var xLabel = svg_bar.append("text")
@@ -727,6 +746,7 @@
         var title =  svg_bar.append("text")
                   .attr("text-anchor", "middle")
                   .attr("transform", "translate(" + margin.left + "," + margin.top + ")" )
+                  .attr("class", "label")
                   .text("Anscombe I - X");
       });
 
@@ -781,9 +801,11 @@
         //Add the X axis 
         svg.append("g")
            .attr("transform", "translate(0," + height + ")")
+           .attr("class", "axis")
            .call(d3.axisBottom(xorVal));
         //Add the Y aixs
         svg.append("g")
+           .attr("class", "axis")
            .call(d3.axisLeft(yVal));
         //Add text labels
         var xLabel = svg.append("text")
@@ -803,6 +825,7 @@
         var title =  svg.append("text")
                   .attr("text-anchor", "middle")
                   .attr("transform", "translate(" + margin.left + "," + margin.top + ")" )
+                  .attr("class", "label")
                   .text("Anscombe I - Y");
       });
 
