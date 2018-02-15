@@ -89,7 +89,7 @@
         var xVal = d3.scaleLinear().range([0, width]);
             yVal = d3.scaleLinear().range([height, 0]);
        // define svg object
-       var svg = d3.select("#scatterplot")
+       var svg_1 = d3.select("#scatterplot")
                    .append("svg")
                    .attr("width", width + margin.left + margin.right+1)
                    .attr("height", height + margin.top + margin.bottom)
@@ -99,7 +99,7 @@
         xVal.domain([d3.min(data, function(d) { return d.x; })-1, d3.max(data, function(d) { return d.x; })+1]);
         yVal.domain([d3.min(data, function(d) { return d.y; })-1, d3.max(data, function(d) { return d.y; })+1]);
         //Add scatterplot
-        svg.selectAll("circle")
+        svg_1.selectAll("circle")
            .data(data)
            .enter()
            .append("circle")
@@ -115,14 +115,14 @@
             function mouseOverPoint(d, i){
                 d3.select(this).attr("r",15).style('fill', 'yellow');
             //Bell Tooltips:
-               svg.append("text").attrs({
+               svg_1.append("text").attrs({
                id: "t",  // Create an id for text so we can select it later for removing on mouseout
                 x: function() { return xVal(d.x); },
                 y: function() { return yVal(d.y); }
             })
             .text("X: "+d.x+"  "+"Y: "+d.y)
             .attr("class", "label")
-            .attr("transform", "translate(0," + -220 + ")");
+            .attr("transform", "translate(0," + -50 + ")");
             };
             function mouseOutPoint(d,i){
                 d3.select(this).attr("r",8).style('fill', 'blue');
@@ -136,23 +136,24 @@
             };
 
         //Add the X axis 
-         svg.append("g")
+         svg_1.append("g")
            .attr("class", "axis")
            .attr("transform", "translate(0," + height + ")")
-           .call(d3.axisBottom(xVal));
+           .call(d3.axisBottom(xVal))
+           .attrs({id:"c"});
         //Add the Y aixs
-         svg.append("g")
+         svg_1.append("g")
            .attr("class", "axis")
            .call(d3.axisLeft(yVal))
            .attrs({id:"b"});
         //Add text labels
-        var xLabel = svg.append("text")
+        var xLabel = svg_1.append("text")
                    .attr("class", "label")
                    .text("x")
                    .attr("x", width - 20)
                    .attr("y", height -10);
 
-        var yLabel = svg.append("text")
+        var yLabel = svg_1.append("text")
                   .attr("class", "label")
                   .text("y")
                   .attr("y", -10)
@@ -186,20 +187,26 @@
            .attr("cx", function(d){return xVal(d.x);})
            .attr("cy", function(d){return yVal(d.y);});
 
-        svg.select("#b").remove();
+        svg_1.select("#b").remove();
+        svg_1.select("#c").remove();
         
-        svg.append("g")
+        svg_1.append("g")
            .attr("class", "axis")
-           .call(d3.axisLeft(yVal)).
-           attrs({id: "b"});
+           .call(d3.axisLeft(yVal))
+           .attrs({id: "b"});
+
+        svg_1.append("g")
+           .attr("class", "axis")
+           .attr("transform", "translate(0," + height + ")")
+           .call(d3.axisBottom(xVal))
+           .attrs({id: "c"});
 
     // remove old elements
         appending.exit().remove();
         });
     }
         //the menu options
-        var datasets = ["anscombe_I","anscombe_II","anscombe_III","anscombe_IV"];
-        var transDur = 1000;
+        var datasets = ["anscombe_II","anscombe_I","anscombe_III","anscombe_IV"];
 
         var select = d3.select("#partTwo").append("select")
                     .attr("class","menu");
@@ -235,7 +242,7 @@
             yVal = d3.scaleLinear().range([height, 0]);
        // define svg object
        var svg = d3.select("#linegraph")
-                   .append("svg")
+                   .append("svg:svg")
                    .attr("width", width + margin.left + margin.right)
                    .attr("height", height + margin.top + margin.bottom)
                    .append("g")
@@ -244,14 +251,16 @@
         xVal.domain([d3.min(data, function(d) { return d.x; })-1, d3.max(data, function(d) { return d.x; })+1]);
         yVal.domain([d3.min(data, function(d) { return d.y; })-1, d3.max(data, function(d) { return d.y; })+1]);
         //Add scatterplot
-        svg.selectAll("circle")
+        svg.selectAll("rect")
            .data(data)
            .enter()
-           .append("circle")
-           .attr("r", 8)
+           .append("rect")
+           //.attr("r", 8)
            .attr("fill", "blue")
-           .attr("cx", function(d){return xVal(d.x);})
-           .attr("cy", function(d){return yVal(d.y);});
+           .attr("x", function(d){return xVal(d.x);})
+           .attr("y", function(d){return yVal(d.y);})
+           .attr("width", 5)
+           .attr("height", 5);
 
         //Sort dataset first so that d3.line.curve will work
           data.sort(function(a,b){
@@ -347,14 +356,15 @@
         .style("stroke-dasharray",("10,3"));
         
         //Add scatterplot
-        svg.selectAll("circle")
+        svg.selectAll("rect")
            .data(data)
            .enter()
-           .append("circle")
-           .attr("r", 4)
+           .append("rect")
            .attr("fill", "blue")
-           .attr("cx", function(d){return xVal(d.x);})
-           .attr("cy", function(d){return yVal(d.y);});
+           .attr("x", function(d){return xVal(d.x);})
+           .attr("y", function(d){return yVal(d.y);})
+           .attr("width",4)
+           .attr("height",4);
 
         //Sort dataset first so that d3.line.curve will work
           data.sort(function(a,b){
@@ -454,14 +464,15 @@
         .style("stroke-dasharray",("10,3"));
 
         //Add scatterplot
-        svg.selectAll("circle")
+        svg.selectAll("rect")
            .data(data)
            .enter()
-           .append("circle")
-           .attr("r", 4)
+           .append("rect")
            .attr("fill", "blue")
-           .attr("cx", function(d){return xVal(d.x);})
-           .attr("cy", function(d){return yVal(d.y);});
+           .attr("x", function(d){return xVal(d.x);})
+           .attr("y", function(d){return yVal(d.y);})
+           .attr("width",4)
+           .attr("height",4);
 
         //Sort dataset first so that d3.line.curve will work
           data.sort(function(a,b){
@@ -561,14 +572,15 @@
         .style("stroke-dasharray",("10,3"));
 
         //Add scatterplot
-        svg.selectAll("circle")
+        svg.selectAll("rect")
            .data(data)
            .enter()
-           .append("circle")
-           .attr("r", 4)
+           .append("rect")
            .attr("fill", "blue")
-           .attr("cx", function(d){return xVal(d.x);})
-           .attr("cy", function(d){return yVal(d.y);});
+           .attr("x", function(d){return xVal(d.x);})
+           .attr("y", function(d){return yVal(d.y);})
+           .attr("width",4)
+           .attr("height",4);
 
         //Sort dataset first so that d3.line.curve will work
           data.sort(function(a,b){
@@ -668,14 +680,16 @@
         .style("stroke-dasharray",("10,3"));
 
         //Add scatterplot
-        svg.selectAll("circle")
+        svg.selectAll("rect")
            .data(data)
            .enter()
-           .append("circle")
+           .append("rect")
            .attr("r", 4)
            .attr("fill", "blue")
-           .attr("cx", function(d){return xVal(d.x);})
-           .attr("cy", function(d){return yVal(d.y);});
+           .attr("x", function(d){return xVal(d.x);})
+           .attr("y", function(d){return yVal(d.y);})
+           .attr("width",4)
+           .attr("height",4);
 
         //Sort dataset first so that d3.line.curve will work
           data.sort(function(a,b){

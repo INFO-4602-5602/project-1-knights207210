@@ -12,3 +12,5 @@ CSS: https://codepen.io/anon/pen/MQEvBx
 
 menu: http://bl.ocks.org/jfreels/6734823
 https://stackoverflow.com/questions/24193593/d3-how-to-change-dataset-based-on-drop-down-box-selection
+
+bar chart: https://github.com/d3/d3-selection-multi
