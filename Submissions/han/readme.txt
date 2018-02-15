@@ -26,3 +26,6 @@ https://github.com/d3/d3-selection-multi
 Note for Bell Styling your Vis: I choose the neon style because the description inspired me to do so. Since I am not very familiar with styling CSS file, neon style provided by description could be a good starting point.
 
 Note for Whistle Replication: I used Tableau to create the visualisations. I first imported the data sets and then edit the range of x-/y-axis as well as title, color and point size. Differences: Tableau was indeed much faster when creating these visualisations because of its user-friendly interface, however, D3.js is more flexible and allowed me to explore more possibilities when styling my graphs.
+
+
+Note: in Bell ToolTips, if labels for x and y values don’t show up, please refresh the page and try again. This is unstable sometimes in some kind of browsers.
